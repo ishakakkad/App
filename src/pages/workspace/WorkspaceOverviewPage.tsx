@@ -48,6 +48,7 @@ import {isEmptyObject} from '@src/types/utils/EmptyObject';
 import type {WithPolicyProps} from './withPolicy';
 import withPolicy from './withPolicy';
 import WorkspacePageWithSections from './WorkspacePageWithSections';
+import { cleanupSavedSearches } from '@libs/WorkspaceUtils';
 
 type WorkspaceOverviewPageProps = WithPolicyProps & PlatformStackScreenProps<WorkspaceSplitNavigatorParamList, typeof SCREENS.WORKSPACE.PROFILE>;
 
@@ -62,6 +63,7 @@ function WorkspaceOverviewPage({policyDraft, policy: policyProp, route}: Workspa
     const backTo = route.params.backTo;
     const [currencyList = {}] = useOnyx(ONYXKEYS.CURRENCY_LIST);
     const [currentUserAccountID = -1] = useOnyx(ONYXKEYS.SESSION, {selector: (session) => session?.accountID});
+    const [savedSearches] = useOnyx(ONYXKEYS.SAVED_SEARCHES);
 
     // When we create a new workspace, the policy prop will be empty on the first render. Therefore, we have to use policyDraft until policy has been set in Onyx.
     const policy = policyDraft?.id ? policyDraft : policyProp;
@@ -170,6 +172,7 @@ function WorkspaceOverviewPage({policyDraft, policy: policyProp, route}: Workspa
 
         deleteWorkspace(policy.id, policyName);
         setIsDeleteModalOpen(false);
+        cleanupSavedSearches(policy.id, savedSearches);
 
         // If the workspace being deleted is the active workspace, switch to the "All Workspaces" view
         if (activeWorkspaceID === policy.id) {
