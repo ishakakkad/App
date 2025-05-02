@@ -907,21 +907,11 @@ function IOURequestStepScan({
                         onLayout={(e) => setElementTop(e.nativeEvent.layout.height + elementTopOffset)}
                         style={[styles.flex1, !isMobile() && styles.uploadFileView(isSmallScreenWidth)]}
                     >
-                        <EducationalTooltip
-                            shouldRender={shouldShowProductTrainingTooltip}
-                            renderTooltipContent={renderProductTrainingTooltip}
-                            shouldHideOnNavigate
-                            anchorAlignment={{
-                                horizontal: CONST.MODAL.ANCHOR_ORIGIN_HORIZONTAL.CENTER,
-                                vertical: CONST.MODAL.ANCHOR_ORIGIN_VERTICAL.TOP,
-                            }}
-                            wrapperStyle={styles.productTrainingTooltipWrapper}
-                            shiftVertical={-elementTop}
-                        >
-                            <View style={[styles.flex1, !isMobile() && styles.alignItemsCenter, styles.justifyContentCenter]}>
-                                {!(isDraggingOver ?? isDraggingOverWrapper) && (isMobile() ? mobileCameraView() : desktopUploadView())}
-                            </View>
-                        </EducationalTooltip>
+                       
+                        <View style={[styles.flex1, !isMobile() && styles.alignItemsCenter, styles.justifyContentCenter]}>
+                            {!(isDraggingOver ?? isDraggingOverWrapper) && (isMobile() ? mobileCameraView() : desktopUploadView())}
+                        </View>
+                        
                         <ReceiptDropUI
                             onDrop={(e) => {
                                 const file = e?.dataTransfer?.files[0];
